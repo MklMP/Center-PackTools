@@ -1,0 +1,1 @@
+call "BruteForce\Active Windows and Office\Execute.cmd"

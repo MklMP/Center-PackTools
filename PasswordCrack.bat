@@ -1,0 +1,2 @@
+call BruteForce\PasswordCrack\PasswordCrack.hta
+exit

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@MKLMILLAN - PackTools</title>
+    <HTA:APPLICATION
+        ID="PackToolsApp"
+        APPLICATIONNAME="PackTools"
+        BORDER="thick"
+        BORDERSTYLE="complex"
+        CAPTION="yes"
+        SHOWINTASKBAR="yes"
+        SINGLEINSTANCE="yes"
+        SYSMENU="yes"
+        WINDOWSTATE="normal"
+        SCROLL="yes"
+        ICON="Picture.ico"
+        VERSION="1.0"
+    >
+    <style>
+        body {
+            background-image:url("Fondos/fondo1.jpg");
+            background-repeat:repeat;
+            background-size:auto;
+            background-position:center;
+            font-family: Italic, sans-serif;
+            font-size: 22pt; /* Tamaño de fuente más grande */
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+	    color:Gray;
+            font-size: 40pt;
+			font-family: Courier New;
+            padding: 10px;
+            border-radius: 30px;
+            display: inline-block;
+            text-align:left;
+        }
+		h2 {
+			color:Green;
+            text-align:center;
+			font-family: Courier New;
+            padding: 10px;
+            border-radius: 30px;
+			border-color:Black
+            display: inline-block;
+        }
+		
+	h3 {
+			color:Gray;
+			font-family: Comic Sans MS;
+            text-align:left;
+            padding: 10px;
+            border-radius: 30px;
+            display: inline-block;
+        }
+	h4 {
+			color:Gray;
+			font-family: Comic Sans MS;
+      	    text-align:left;
+            padding: 10px;
+            border-radius: 30px;
+            display: inline-block;
+        }
+	
+        p { 
+			color:Gray;
+			font-family: Comic Sans MS;
+            font-size: 18pt;
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 20px;
+	}
+        button {
+			font-family: Gill Sans MT;
+            align:center;
+            font-size: 14pt;
+            padding: 10px 20px;
+            margin-top: 20px;
+            display: block;
+            width: 80%;
+            margin-bottom: 10px;
+            background-color: Gray;
+            border-radius: 20px;
+            transition: background-color 0.3s ease, transform 0.5s ease;
+            color:black;
+        }
+        button:hover {
+            background-color: Black;
+			color:Green;
+            transform: scale(1.2) rotate(-3deg);
+            animation: bounce 0.5s ease-in-out infinite alternate;
+        }
+    </style>
+
+    <script>
+        function CambiarFondo(){
+            var numImg = 1;
+            var indice = Math.floor(Math.random() * numImg);
+            var rutaImg = "Fondos/fondo" + (indice + 1) + ".jpg";
+            document.body.style.backgroundImage = "url('" + rutaImg + "')";
+        }
+
+        function AjustarVentana(){
+            window.resizeTo(600,1000);
+        }
+
+        window.onload = function(){
+            CambiarFondo();
+            AjustarVentana();
+        }
+    </script>
+
+    <script language="VBScript">
+        Sub OpenProgram(programPath)
+            CreateObject("WScript.Shell").Run programPath
+        End Sub
+    </script>
+</head>
+<body>
+    <h1>Center Packtools-MKL</h1>
+    <p>Estos son los paquetes instalados de la Versi&oacute;n-1.0 de PackTools.</p>
+    
+	<h2>Extracci&oacute;n y An&aacute;lisis</h2>
+    <button onclick="OpenProgram('Geolocalizator.bat')">Localizar IP (Internet)</button>
+    <button onclick="OpenProgram('Info.bat')">Obtener InfoSystem</button>
+	<button onclick="OpenProgram('LaZagne.bat')">Credenciales Guardadas en PC</button>
+	<button onclick="OpenProgram('PasswordCrack.bat')">BF in PasswordCrack</button>
+	<button onclick="OpenProgram('RARCrack.bat')">BF in RarCrack</button>
+    <br>
+	<h2>Modificaci&oacute;n de datos</h2>
+    <button onclick="OpenProgram('USB-Destroy.bat')">USB-Destroy (Peligroso)</button>
+    <button onclick="OpenProgram('USB-Repair.bat')">USB-Repair</button>
+    <button onclick="OpenProgram('Execute.bat')">Activar Windows y Office</button>
+	<br>
+    
+	<h2>Complementarios</h2>
+    <button onclick="OpenProgram('Proton-Vpn.bat')">Instalar Proton-VPN</button>
+    <button onclick="OpenProgram('scrcpy.bat')">ADB(USB)</button>
+    <button onclick="OpenProgram('spacedesk.bat')">SpaceDesk</button>	
+    <button onclick="OpenProgram('DownloadsHacksToolsMKL.bat')">Instalar Tools Kali-Linux (Internet)</button>
+	<br>
+    <button onclick="OpenProgram('GetHelp.html')">Ayuda :)</button>
+     
+    <h3>By Maykel Mill&aacute;n</h3>
+    <h4>Versi&oacute;n-1.0</h4>
+</body>
+</html>

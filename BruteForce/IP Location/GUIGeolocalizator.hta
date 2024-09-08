@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Geolocalizator-MaykelMillan</title>
+    <hta:application 
+        id="geolocalizator"
+        applicationname="Geolocalizator"
+        border="thin"
+        borderstyle="normal"
+        caption="yes"
+        icon="shell32.dll,43"
+        maximizebutton="yes"
+        minimizebutton="yes"
+        sysmenu="yes"
+        scroll="yes"
+        singleinstance="yes"
+        showintaskbar="yes"
+        windowstate="normal"
+    />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #9933FF;
+            color: white;
+        }
+        .container {
+            width: 400px;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+        .title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .subtitle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .button {
+            width: 100%;
+            padding: 10px;
+            background-color: #FF9900;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .button:hover {
+            background-color: #FF6600;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border: none;
+        }
+        .output {
+            margin-top: 20px;
+            background-color: #660099;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .output p {
+            margin: 0;
+        }
+        #progressBar {
+            width: 100%;
+            background-color: #FF6600;
+            height: 20px;
+            display: none;
+        }
+        #progress {
+            width: 0%;
+            height: 100%;
+            background-color: #FF9900;
+            text-align: center;
+            line-height: 20px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Bienvenido a Geolocalizator</div>
+        <div class="subtitle">Si tu cliente no tiene permisos para usar esta API, deberás usar VPN.</div>
+
+        <label for="ip">Enter IP:</label>
+        <input type="text" id="ip" placeholder="Enter IP">
+
+        <button class="button" onclick="startGeolocalization()">Iniciar Geolocalización</button>
+        <button class="button" onclick="closeHTA()">Cerrar</button>
+
+        <div id="progressBar">
+            <div id="progress">0%</div>
+        </div>
+
+        <div id="output" class="output">
+            <p id="info"></p>
+            <p id="mapsLink"></p>
+        </div>
+    </div>
+
+    <script>
+        function startGeolocalization() {
+            var ip = document.getElementById("ip").value;
+            if (ip === "") {
+                alert("Error: No se ingresó ninguna IP.");
+                return;
+            }
+
+            document.getElementById("progressBar").style.display = "block";
+            animateProgress();
+
+            var shell = new ActiveXObject("WScript.Shell");
+            var fso = new ActiveXObject("Scripting.FileSystemObject");
+            var tempFile = fso.GetSpecialFolder(2) + "\\temp.txt";
+
+            var cmd = "cmd /c curl -s https://ipinfo.io/" + ip + " > " + tempFile;
+            var errorCode = shell.Run(cmd, 0, true);
+
+            if (errorCode !== 0) {
+                document.getElementById("progressBar").style.display = "none";
+                if (errorCode === 6) {
+                    alert("Error: No se puede resolver el nombre de host. Establece primero una conexión a Internet.");
+                } else {
+                    alert("Ocurrió un error con la solicitud. Error de curl: " + errorCode);
+                }
+                return;
+            }
+
+            var tempFile = fso.OpenTextFile(tempFile, 1);
+            var fileContents = tempFile.ReadAll();
+            tempFile.Close();
+
+            document.getElementById("info").innerText = "Información obtenida:\n" + fileContents;
+
+            var loc = "";
+            var lines = fileContents.split("\n");
+            for (var i = 0; i < lines.length; i++) {
+                if (lines[i].indexOf("loc") !== -1) {
+                    loc = lines[i].split(":")[1].trim().replace(/"/g, "");
+                    break;
+                }
+            }
+
+            if (loc === "") {
+                document.getElementById("progressBar").style.display = "none";
+                alert("Error al extraer las coordenadas.");
+                return;
+            }
+
+            var coords = loc.split(",");
+            var latitude = coords[0];
+            var longitude = coords[1];
+
+            var mapsUrl = "https://www.google.com/maps?q=" + latitude + "," + longitude;
+            document.getElementById("mapsLink").innerHTML = "<a href='#' onclick='openMaps(\"" + mapsUrl + "\")'>Abrir en Google Maps</a>";
+            document.getElementById("output").style.display = "block";
+
+            document.getElementById("progressBar").style.display = "none";
+        }
+
+        function animateProgress() {
+            var progress = document.getElementById("progress");
+            var width = 1;
+            var interval = setInterval(function () {
+                if (width >= 100) {
+                    clearInterval(interval);
+                } else {
+                    width++;
+                    progress.style.width = width + "%";
+                    progress.innerText = width + "%";
+                }
+            }, 50);
+        }
+
+        function openMaps(url) {
+            var shell = new ActiveXObject("WScript.Shell");
+            shell.Run("cmd /c start " + url, 0, false);
+        }
+
+        function closeHTA() {
+            window.close();
+        }
+    </script>
+</body>
+</html>

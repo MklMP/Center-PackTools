@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RARCrack-MaykelMillan</title>
+    <hta:application 
+        id="rarcrack"
+        applicationname="RARCrack"
+        border="thin"
+        borderstyle="normal"
+        caption="yes"
+        icon="shell32.dll,43"
+        maximizebutton="yes"
+        minimizebutton="yes"
+        sysmenu="yes"
+        scroll="yes"
+        singleinstance="yes"
+        showintaskbar="yes"
+        windowstate="normal"
+    />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #9933FF;
+            color: white;
+        }
+        .container {
+            width: 400px;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+        .title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .subtitle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .button {
+            width: 100%;
+            padding: 10px;
+            background-color: #FF9900;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .button:hover {
+            background-color: #FF6600;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border: none;
+        }
+        .output {
+            margin-top: 20px;
+            background-color: #660099;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .output p {
+            margin: 0;
+        }
+        #progressBar {
+            width: 100%;
+            background-color: #FF6600;
+            height: 20px;
+            display: none;
+        }
+        #progress {
+            width: 0%;
+            height: 100%;
+            background-color: #FF9900;
+            text-align: center;
+            line-height: 20px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Bienvenido a RARCrack</div>
+        <div class="subtitle">Si se logra encontrar la contraseña correcta los archivos se extraeran automaticamente en "Extraction".</div>
+
+        <label for="ip">Introduce el archivo cifrado:</label>
+        <input type="text" id="ip" placeholder="Enter IP">
+
+        <button class="button" onclick="startGeolocalization()">Empezar ataque de diccionario</button>
+        <button class="button" onclick="closeHTA()">Cerrar</button>
+
+        <div id="progressBar">
+            <div id="progress">0%</div>
+        </div>
+
+        <div id="output" class="output">
+            <p id="info"></p>
+            <p id="mapsLink"></p>
+        </div>
+    </div>
+
+    <script>
+        function startRARCrack() {
+            var cifrado = "";
+            if (ip === "") {
+                alert("Error: No se ingresó ninguna IP.");
+                return;
+            }
+
+            do
+        function animateProgress() {
+            var progress = document.getElementById("progress");
+            var width = 1;
+            var interval = setInterval(function () {
+                if (width >= 100) {
+                    clearInterval(interval);
+                } else {
+                    width++;
+                    progress.style.width = width + "%";
+                    progress.innerText = width + "%";
+                }
+            }, 50);
+        }
+
+
+        function closeHTA() {
+            window.close();
+        }
+    </script>
+</body>
+</html>

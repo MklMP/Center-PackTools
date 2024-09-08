@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Conectar a Máquina Remota - HTA</title>
+    <hta:application 
+        id="remoteDesktop"
+        applicationname="Remote Desktop"
+        border="thin"
+        borderstyle="normal"
+        caption="yes"
+        icon="shell32.dll,43"
+        maximizebutton="no"
+        minimizebutton="yes"
+        sysmenu="yes"
+        scroll="no"
+        singleinstance="yes"
+        showintaskbar="yes"
+        windowstate="normal"
+    />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: black;
+            padding: 20px;
+        }
+        .button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <label for="ip">Dirección IP:</label>
+    <input type="text" id="ip" placeholder="Dirección IP">
+
+    <button class="button" onclick="startRemoteDesktop()">Conectar a Escritorio Remoto</button>
+
+    <script type="text/vbscript">
+        Sub startRemoteDesktop()
+            Dim ip, shell, cmd
+            ip = document.getElementById("ip").value
+            
+            If ip = "" Then
+                MsgBox "La dirección IP es obligatoria.", 48, "Error"
+                Exit Sub
+            End If
+            
+            Set shell = CreateObject("WScript.Shell")
+            
+            ' Define el comando para iniciar la conexión de escritorio remoto
+            cmd = "cmd /c mstsc /v:" & ip
+            
+            ' Ejecuta el comando
+            shell.Run cmd, 1, False
+        End Sub
+    </script>
+</body>
+</html>

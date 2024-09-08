@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Repair-USB by MaykelMillan</title>
+    <hta:application 
+        id="repairUSB"
+        applicationname="Repair-USB"
+        border="thin"
+        borderstyle="normal"
+        caption="yes"
+        icon="shell32.dll,43"
+        maximizebutton="no"
+        minimizebutton="yes"
+        sysmenu="yes"
+        scroll="no"
+        singleinstance="yes"
+        showintaskbar="yes"
+        windowstate="normal"
+    />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #007acc;
+            color: white;
+        }
+        .container {
+            width: 400px;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+        .title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .subtitle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ffcc00;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .button:hover {
+            background-color: #ff9900;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">USB-Repair</div>
+        <div class="subtitle">By Maykel Millan</div>
+
+        <label for="diskOption">Selecciona el disco para Reparar:</label>
+        <input type="text" id="diskOption" style="width: 100%; padding: 5px; margin-bottom: 10px;">
+
+        <button class="button" onclick="startRepair()">Iniciar Reparación</button>
+        <button class="button" onclick="closeHTA()">Cerrar</button>
+    </div>
+
+    <script type="text/vbscript">
+        Sub startRepair()
+            Dim diskOption
+            diskOption = document.getElementById("diskOption").value
+
+            If diskOption = "" Then
+                MsgBox "Por favor, ingrese el número de disco", 48, "Error"
+                Exit Sub
+            End If
+
+            Dim fso, partFile, diskpartFile
+            Set fso = CreateObject("Scripting.FileSystemObject")
+            
+            ' Crear archivo part.txt
+            Set partFile = fso.CreateTextFile("part.txt", True)
+            partFile.WriteLine("list disk")
+            partFile.Close
+
+            ' Ejecutar diskpart para listar discos
+            CreateObject("WScript.Shell").Run "diskpart /s part.txt", 0, True
+            fso.DeleteFile "part.txt"
+
+            ' Crear archivo diskpart.txt
+            Set diskpartFile = fso.CreateTextFile("diskpart.txt", True)
+            diskpartFile.WriteLine("select disk " & diskOption)
+            diskpartFile.WriteLine("clean")
+            diskpartFile.WriteLine("create partition primary")
+            diskpartFile.WriteLine("active")
+            diskpartFile.WriteLine("format fs=FAT32 quick")
+            diskpartFile.WriteLine("assign letter=M")
+            diskpartFile.WriteLine("exit")
+            diskpartFile.Close
+
+            ' Ejecutar diskpart con las instrucciones
+            CreateObject("WScript.Shell").Run "diskpart /s diskpart.txt", 1, True
+            fso.DeleteFile "diskpart.txt"
+
+            MsgBox "Formateo Completado !!", 64, "Éxito"
+        End Sub
+
+        Sub closeHTA()
+            Self.Close
+        End Sub
+    </script>
+</body>
+</html>
